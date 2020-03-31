@@ -25,14 +25,16 @@ import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AuthActivity {
 
     SurfaceView cameraView;
     TextView txtResult;
     EditText user;
+    String s;
     BarcodeDetector barcodeDetector;
     CameraSource cameraSource;
     final int RequestCameraPermissionID=1;
+    Boolean checker=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,10 +107,13 @@ public class MainActivity extends AppCompatActivity {
                             Vibrator vibrator=(Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                             vibrator.vibrate(1000);//here give the time in MilliSeconds
                             //afterscanning.t1.setText(sparseArray.valueAt(0).displayValue);
-                            String s=sparseArray.valueAt(0).displayValue;
-                            Intent i=new Intent(getApplicationContext(),afterscanning.class);
-                            i.putExtra("value",s);
-                               startActivity(i);
+                             s=sparseArray.valueAt(0).displayValue;
+                            //Intent i=new Intent(getApplicationContext(),afterscanning.class);
+                            //i.putExtra("value",s);
+                              // startActivity(i);
+                            if(checker==false) {
+                                OnAction(s);
+                            }
                             //txtResult.setText(sparseArray.valueAt(0).displayValue);
                             //Thats All
                         }
@@ -142,14 +147,38 @@ public class MainActivity extends AppCompatActivity {
                 }
         }
     }
-//    public void OnLogin(View view) {
-//        String username = user.getText().toString();
-//        String password = txtResult.getText().toString();
-//        String type = "login";
-//        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-//        backgroundWorker.execute(type, username, password);
-//
-//    }
 
+
+    public void OnAction(String s) {
+        String username =s;
+        String password ="";
+        String type = "Check";
+        checker=true;
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        backgroundWorker.execute(type, username, password);
+       // finish();
+    }
+
+
+    @Override
+    protected void onAuthFailed(String mes) {
+        Intent i=new Intent(getApplicationContext(),Update.class);
+       i.putExtra("value",mes);
+        startActivity(i);
+
+    }
+
+
+
+    @Override
+    public void onAuthComplete() {
+        Intent i=new Intent(getApplicationContext(),afterscanning.class);
+        i.putExtra("value",s);
+        startActivity(i);
+
+       // i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+
+    }
 
 }

@@ -23,7 +23,7 @@
             android:scrollHorizontally = "true"
 
             android:singleLine = "true"
-            android:text="WELCOME TO EASTERN RAILWAYS"
+            android:text="WELCOME TO EAST COAST RAILWAYS"
             android:textColor="#ffffff"
             android:fontFamily="sans-serif"
             android:textSize="30dp"

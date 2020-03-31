@@ -41,6 +41,12 @@ public class afterscanning extends AuthActivity {
 
     }
 
+
+    @Override
+    protected void onAuthFailed(String mes) {
+
+    }
+
     @Override
     public void onAuthComplete() {
 
